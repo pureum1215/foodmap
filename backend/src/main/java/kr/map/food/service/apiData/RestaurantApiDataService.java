@@ -9,6 +9,7 @@ import kr.map.food.domain.apiData.RestaurantDTO;
 import kr.map.food.domain.apiData.RestaurantRawDTO;
 import kr.map.food.domain.util.ApiResponse;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
+import kr.map.food.service.apiData.dataTrans.FindNullData;
 
 @Service
 public class RestaurantApiDataService {
@@ -37,7 +38,7 @@ public class RestaurantApiDataService {
         for (String code : guCodes) {
             List<RestaurantRawDTO> rawList = collector.collect(code);
             for (RestaurantRawDTO raw : rawList) {
-                if (AddressHelper.isEmpty(raw.getSITEWHLADDR()) && AddressHelper.isEmpty(raw.getRDNWHLADDR())) {
+                if (FindNullData.isEmpty(raw.getSITEWHLADDR()) && FindNullData.isEmpty(raw.getRDNWHLADDR())) {
                     continue;
                 }
 
@@ -51,18 +52,18 @@ public class RestaurantApiDataService {
         RestaurantDTO r = new RestaurantDTO();
         r.setResIdx(raw.getMGTNO());
         r.setResName(raw.getBPLCNM());
-        r.setResRun(AddressHelper.parseIntSafe(raw.getDTLSTATEGBN()));
+        r.setResRun(AddressTrans.parseIntSafe(raw.getDTLSTATEGBN()));
         r.setResNum(raw.getSITETEL());
         r.setTypeIdx(1); // 업태구분은 임시
         r.setResCleanScore(raw.getLVSENM());
-        r.setADDRGU(AddressHelper.parseGu(raw.getSITEWHLADDR()));
-        r.setADDRDONG(AddressHelper.parseDong(raw.getSITEWHLADDR()));
+        r.setADDRGU(AddressTrans.parseGu(raw.getSITEWHLADDR()));
+        r.setADDRDONG(AddressTrans.parseDong(raw.getSITEWHLADDR()));
         r.setOLDADDR(raw.getSITEWHLADDR());
         r.setNEWADDR(raw.getRDNWHLADDR());
-        r.setNUMADDR(AddressHelper.parseIntSafe(raw.getRDNPOSTNO()));
-        r.setXPOS(AddressHelper.parseDoubleSafe(raw.getX()));
-        r.setYPOS(AddressHelper.parseDoubleSafe(raw.getY()));
+        r.setNUMADDR(AddressTrans.parseIntSafe(raw.getRDNPOSTNO()));
+        r.setXPOS(AddressTrans.parseDoubleSafe(raw.getX()));
+        r.setYPOS(AddressTrans.parseDoubleSafe(raw.getY()));
         return r;
     }
-    
+
 }
