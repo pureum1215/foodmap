@@ -9,6 +9,7 @@ import kr.map.food.domain.apiData.RestaurantDTO;
 import kr.map.food.domain.apiData.RestaurantRawDTO;
 import kr.map.food.domain.util.ApiResponse;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
+import kr.map.food.service.apiData.dataTrans.AddressTrans;
 import kr.map.food.service.apiData.dataTrans.FindNullData;
 
 @Service
@@ -35,15 +36,49 @@ public class RestaurantApiDataService {
             // 필요하면 전부 추가
         };
 
+        AddressTrans addressTrans = new AddressTrans();
+
         for (String code : guCodes) {
             List<RestaurantRawDTO> rawList = collector.collect(code);
             for (RestaurantRawDTO raw : rawList) {
-                if (FindNullData.isEmpty(raw.getSITEWHLADDR()) && FindNullData.isEmpty(raw.getRDNWHLADDR())) {
+
+                // null값 찾기
+                if ( FindNullData.isEmpty( raw.getSITEWHLADDR() ) && FindNullData.isEmpty( raw.getRDNWHLADDR() ) ) {
                     continue;
                 }
 
                 RestaurantDTO dto = buildRestaurant(raw);
+
+                if ( FindNullData.isEmpty( raw.getSITEWHLADDR() ) ) {
+                    String siteaddr = addressTrans.roadToSite(raw.getRDNWHLADDR());
+                    dto.setOLDADDR(siteaddr);
+                }
+
+                if ( FindNullData.isEmpty( raw.getRDNWHLADDR() ) ) {
+                    String roadaddr = addressTrans.siteToRoad(raw.getSITEWHLADDR());
+                    dto.setNEWADDR(roadaddr);
+                }
+
+                if ( FindNullData.isEmpty( raw.getRDNPOSTNO() ) && !FindNullData.isEmpty( dto.getNEWADDR() ) ) {
+                    String post = addressTrans.getPostCode( dto.getNEWADDR() );
+                    dto.setNUMADDR( AddressTrans.parseIntSafe(post) );
+                }
+
+                
+
+                if ( FindNullData.isEmpty( raw.getX() ) || FindNullData.isEmpty( raw.getY() ) ) {
+                    // String baseAddress = !FindNullData.isEmpty(dto.getNEWADDR()) ? dto.getNEWADDR() : dto.getOLDADDR();
+                    // if ( !FindNullData.isEmpty(baseAddress) ) {
+                    //     Double[] latlng = addressTrans.addressToLatLng(baseAddress);
+                    //     if ( latlng != null ) {
+                    //         dto.setYPOS(latlng[0]);
+                    //         dto.setXPOS(latlng[1]);
+                    //     }
+                    // }
+                }
+
                 restaurantMapper.insertRestaurant(dto);
+
             }
         }
     }
