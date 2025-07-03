@@ -9,128 +9,96 @@ import kr.map.food.domain.apiData.RestaurantDTO;
 import kr.map.food.domain.apiData.RestaurantRawDTO;
 import kr.map.food.domain.util.ApiResponse;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
+import kr.map.food.service.apiData.dataTrans.AddressTrans;
+import kr.map.food.service.apiData.dataTrans.FindNullData;
 
 @Service
 public class RestaurantApiDataService {
     
+    private final RestaurantApiCollector collector;
     private final RestaurantApiDataMapper restaurantMapper;
-    private final RestTemplate restTemplate = new RestTemplate();
 
-    public RestaurantApiDataService( RestaurantApiDataMapper restaurantMapper ) {
+    public RestaurantApiDataService(
+        RestaurantApiCollector collector,
+        RestaurantApiDataMapper restaurantMapper
+    ) {
+        this.collector = collector;
         this.restaurantMapper = restaurantMapper;
     }
 
-    public void CollectApiDataRestaurant() {
+    public void collectAllGuData() {
+        // 서울시 전체 구 코드 리스트
+        String[] guCodes = {
+            "LOCALDATA_072404_YC", // 양천구
+            "LOCALDATA_072404_GG", // 강남구
+            "LOCALDATA_072404_GD", // 강동구
+            // ...
+            // 필요하면 전부 추가
+        };
 
-        int page = 1;
-    
-        String url = String.format(
-            "http://openapi.seoul.go.kr:8088/464850745570757236334247635442/xml/LOCALDATA_072404_YC/1/1");
-        
-        ApiResponse response = restTemplate.getForObject(url, ApiResponse.class);
-        
-        int listTotalCount = response.getListTotalCount();
-        int totalPage = ( listTotalCount + 1000 - 1 ) / 1000;
+        AddressTrans addressTrans = new AddressTrans();
 
-        while ( page <= totalPage ) {
-        
-            int fromNum = ( page - 1 ) * 1000 + 1;
-            int toNum = ( page ) * 1000;
-        
-            url = String.format(
-                "http://openapi.seoul.go.kr:8088/464850745570757236334247635442/xml/LOCALDATA_072404_YC/%d/%d",
-                fromNum, toNum
-            );
-            
-            response = restTemplate.getForObject(url, ApiResponse.class);
+        for (String code : guCodes) {
+            List<RestaurantRawDTO> rawList = collector.collect(code);
+            for (RestaurantRawDTO raw : rawList) {
 
-            List<RestaurantRawDTO> items = response.getRow();
-
-            if (items == null || items.isEmpty()) {
-                break;
-            }
-
-            for (RestaurantRawDTO raw : items) {
-                
-                // 필터 부분
-                // 주소가 없을 때
-                if (isEmpty(raw.getSITEWHLADDR()) && isEmpty(raw.getRDNWHLADDR())) {
+                // null값 찾기
+                if ( FindNullData.isEmpty( raw.getSITEWHLADDR() ) && FindNullData.isEmpty( raw.getRDNWHLADDR() ) ) {
                     continue;
                 }
-                
-                // 지번주소 없음 -> 도로명주소를 지번주소로 변경
-                if ( isEmpty( raw.getSITEWHLADDR() ) ) {
-                    
+
+                RestaurantDTO dto = buildRestaurant(raw);
+
+                if ( FindNullData.isEmpty( raw.getSITEWHLADDR() ) ) {
+                    String siteaddr = addressTrans.roadToSite(raw.getRDNWHLADDR());
+                    dto.setOLDADDR(siteaddr);
                 }
+
+                if ( FindNullData.isEmpty( raw.getRDNWHLADDR() ) ) {
+                    String roadaddr = addressTrans.siteToRoad(raw.getSITEWHLADDR());
+                    dto.setNEWADDR(roadaddr);
+                }
+
+                if ( FindNullData.isEmpty( raw.getRDNPOSTNO() ) && !FindNullData.isEmpty( dto.getNEWADDR() ) ) {
+                    String post = addressTrans.getPostCode( dto.getNEWADDR() );
+                    dto.setNUMADDR( AddressTrans.parseIntSafe(post) );
+                }
+
                 
-                // 도로명주소 없음 -> 지번주소를 도로명주소로 변경
-                // 우편번호 없음 -> 도로명주소로 우편번호 가져오기
-                // x, y 좌표 없음 -> 도로명주소로 x,y 좌표값 가져오기
-                // 업태 구분 -> RESTAURANTTYPE TABLE에서 업태구분명과 일치하는 IDX 입력
-                int typeIdx = 1;
 
-                // 레스토랑 엔티티 매핑
-                RestaurantDTO r = new RestaurantDTO();
-                r.setResIdx(raw.getMGTNO());
-                r.setResName(raw.getBPLCNM());
-                r.setResRun(parseIntSafe(raw.getDTLSTATEGBN()));
-                r.setResNum(raw.getSITETEL());
-                r.setTypeIdx(typeIdx);
-                r.setResCleanScore(raw.getLVSENM());
-                r.setADDRGU(parseGu(raw.getSITEWHLADDR()));
-                r.setADDRDONG(parseDong(raw.getSITEWHLADDR()));
-                r.setOLDADDR(raw.getSITEWHLADDR());
-                r.setNEWADDR(raw.getRDNWHLADDR());
-                r.setNUMADDR(parseIntSafe(raw.getRDNPOSTNO()));
-                r.setXPOS(parseDoubleSafe(raw.getX()));
-                r.setYPOS(parseDoubleSafe(raw.getY()));
+                if ( FindNullData.isEmpty( raw.getX() ) || FindNullData.isEmpty( raw.getY() ) ) {
+                    // String baseAddress = !FindNullData.isEmpty(dto.getNEWADDR()) ? dto.getNEWADDR() : dto.getOLDADDR();
+                    // if ( !FindNullData.isEmpty(baseAddress) ) {
+                    //     Double[] latlng = addressTrans.addressToLatLng(baseAddress);
+                    //     if ( latlng != null ) {
+                    //         dto.setYPOS(latlng[0]);
+                    //         dto.setXPOS(latlng[1]);
+                    //     }
+                    // }
+                }
 
-                // insert
-                //restaurantMapper.insertRestaurant(r);
+                restaurantMapper.insertRestaurant(dto);
+
             }
-
-            page++;
         }
     }
 
-    // null값 찾기
-    private boolean isEmpty(String s) {
-        return s == null || s.trim().isEmpty();
+    private RestaurantDTO buildRestaurant(RestaurantRawDTO raw) {
+        RestaurantDTO r = new RestaurantDTO();
+        r.setResIdx(raw.getMGTNO());
+        r.setResName(raw.getBPLCNM());
+        r.setResRun(AddressTrans.parseIntSafe(raw.getDTLSTATEGBN()));
+        r.setResNum(raw.getSITETEL());
+        r.setTypeIdx(1); // 업태구분은 임시
+        r.setResCleanScore(raw.getLVSENM());
+        r.setADDRGU(AddressTrans.parseGu(raw.getSITEWHLADDR()));
+        r.setADDRDONG(AddressTrans.parseDong(raw.getSITEWHLADDR()));
+        r.setOLDADDR(raw.getSITEWHLADDR());
+        r.setNEWADDR(raw.getRDNWHLADDR());
+        r.setNUMADDR(AddressTrans.parseIntSafe(raw.getRDNPOSTNO()));
+        r.setXPOS(AddressTrans.parseDoubleSafe(raw.getX()));
+        r.setYPOS(AddressTrans.parseDoubleSafe(raw.getY()));
+        return r;
     }
-
-    private Integer parseIntSafe(String value) {
-        try {
-            return (value == null || value.isBlank()) ? null : Integer.parseInt(value.trim());
-        } 
-        catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private Double parseDoubleSafe(String value) {
-        try {
-            return (value == null || value.isBlank()) ? null : Double.parseDouble(value.trim());
-        } 
-        catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    // 구 설정
-    private String parseGu(String addr) {
-        if (addr == null || addr.isBlank()) return "";
-        String[] parts = addr.trim().split(" ");
-        return parts.length >= 2 ? parts[1] : "";
-    }
-
-    // 동 설정
-    private String parseDong(String addr) {
-        if (addr == null || addr.isBlank()) return "";
-        String[] parts = addr.trim().split(" ");
-        return parts.length >= 3 ? parts[2] : "";
-    }
-
-
-
 
 }
