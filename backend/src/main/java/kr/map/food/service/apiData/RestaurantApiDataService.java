@@ -3,15 +3,14 @@ package kr.map.food.service.apiData;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import kr.map.food.domain.apiData.RestaurantDTO;
 import kr.map.food.domain.apiData.RestaurantRawDTO;
-import kr.map.food.domain.util.ApiResponse;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
 import kr.map.food.service.apiData.dataTrans.AddressTrans;
 import kr.map.food.service.apiData.dataTrans.DataTypeTrans;
 import kr.map.food.service.apiData.dataTrans.FindNullData;
+import kr.map.food.service.apiData.dataTrans.TelNumTrans;
 
 @Service
 public class RestaurantApiDataService {
@@ -45,6 +44,7 @@ public class RestaurantApiDataService {
 
                 RestaurantDTO dto = buildRestaurant(raw);
 
+                // 주소 가공
                 if ( FindNullData.isEmpty( raw.getSITEWHLADDR() ) 
                     || FindNullData.isEmpty( raw.getRDNWHLADDR() )
                     || FindNullData.isEmpty( raw.getX() )
@@ -52,6 +52,9 @@ public class RestaurantApiDataService {
                     ) {
                     AddressTrans.setAddress( raw, dto );
                 }
+
+                // 전화번호 가공
+                TelNumTrans.setTelNum( dto.getRESNUM() );
 
                 // restaurantMapper.insertRestaurant(dto);
 
