@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
+import kr.map.food.domain.apiData.Restaurant.GuApiInfoENUM;
 import kr.map.food.domain.apiData.Restaurant.RestaurantApiResponse;
 import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
 
@@ -12,14 +13,16 @@ public class RestaurantApiCollector {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public List<RestaurantRawDTO> collect( String guCode ) {
+    public List<RestaurantRawDTO> collect( GuApiInfoENUM guInfo, String apiKey ) {
         List<RestaurantRawDTO> rawList = new ArrayList<>();
 
         int page = 1;
         
         String url = String.format(
-            "http://openapi.seoul.go.kr:8088/464850745570757236334247635442/xml/%s/1/1",
-            guCode
+            "%s/%s/xml/%s/1/1",
+            guInfo.getBaseUrl(),
+            apiKey,
+            guInfo.getCode()
         );
 
         RestaurantApiResponse response = restTemplate.getForObject(url, RestaurantApiResponse.class);
@@ -32,8 +35,12 @@ public class RestaurantApiCollector {
             int toNum = (page) * 1000;
 
             String pageUrl = String.format(
-                "http://openapi.seoul.go.kr:8088/464850745570757236334247635442/xml/%s/%d/%d",
-                guCode, fromNum, toNum
+                "%s/%s/xml/%s/%d/%d/",
+                guInfo.getBaseUrl(),
+                apiKey,
+                guInfo.getCode(),
+                fromNum,
+                toNum
             );
 
             RestaurantApiResponse pageResponse = restTemplate.getForObject(pageUrl, RestaurantApiResponse.class);

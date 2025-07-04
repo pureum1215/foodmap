@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import kr.map.food.domain.apiData.BestRestaurant.GuApiInfoENUM;
 import kr.map.food.domain.apiData.Restaurant.RestaurantDTO;
 import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
@@ -18,23 +19,17 @@ public class RestaurantApiDataService {
     private final RestaurantApiCollector collector;
     private final RestaurantApiDataMapper restaurantMapper;
 
+    private static final String API_KEY = "464850745570757236334247635442";
+
     public RestaurantApiDataService( RestaurantApiCollector collector, RestaurantApiDataMapper restaurantMapper ) {
         this.collector = collector;
         this.restaurantMapper = restaurantMapper;
     }
 
     public void collectAllGuData() {
-        // 서울시 전체 구 코드 리스트
-        String[] guCodes = {
-            "LOCALDATA_072404_YC", // 양천구
-            "LOCALDATA_072404_GG", // 강남구
-            "LOCALDATA_072404_GD", // 강동구
-            // ...
-            // 필요하면 전부 추가
-        };
 
-        for (String code : guCodes) {
-            List<RestaurantRawDTO> rawList = collector.collect(code);
+        for ( GuApiInfoENUM guURL : GuApiInfoENUM.values() ) {
+            List<RestaurantRawDTO> rawList = collector.collect( guURL, API_KEY );
             for ( RestaurantRawDTO raw : rawList ) {
 
                 // null값 찾기
