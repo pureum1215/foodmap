@@ -10,3 +10,6 @@ spring:
 mybatis:
   mapper-locations: classpath:mappers/*.xml
   type-aliases-package: kr.map.food.domain
+
+clean:
+  excel-path: excel/clean_grade_250627.xlsx

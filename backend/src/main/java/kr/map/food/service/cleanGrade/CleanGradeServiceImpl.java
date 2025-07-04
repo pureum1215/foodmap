@@ -1,8 +1,10 @@
 package kr.map.food.service.cleanGrade;
 
+import java.io.InputStream;
 import java.util.List;
 
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,21 +15,29 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class CleanGradeServiceImpl implements CleanGradeService {
+public class CleanGradeServiceImpl {
+
+    @Value("${clean.excel-path}")
+    private String excelPath;
 
     // 생성자 주입 (@RequiredArgsConstructor + final)
     private final CleanGradeMapper mapper;
     private final CleanGradeExcel excel;
 
 
-    public void uploadExcel(MultipartFile file) throws Exception {
+    public void uploadExcel() throws Exception {
+        
+        ClassPathResource res = new ClassPathResource(excelPath);
+        InputStream input = res.getInputStream();
+
+
+        // 엑셀 파싱
+        List<CleanGradeDTO> list = excel.parse(input);
         
         // 논리 삭제 CLDELYN = "Y"
         mapper.markAllDeleted();
 
-        // 엑셀 파싱
-        List<CleanGradeDTO> list = excel.parse(file.getInputStream());
-    
+        
         for(CleanGradeDTO dto : list) {
             if(mapper.existsClean(dto) > 0) {
                 mapper.updateClean(dto);
