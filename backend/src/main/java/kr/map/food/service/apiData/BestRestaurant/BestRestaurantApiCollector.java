@@ -5,24 +5,27 @@ import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
+import kr.map.food.domain.apiData.BestRestaurant.BestRestaurantApiResponse;
 import kr.map.food.domain.apiData.BestRestaurant.BestRestaurantRawDTO;
-import kr.map.food.domain.apiData.Restaurant.RestaurantApiResponse;
+import kr.map.food.domain.apiData.BestRestaurant.GuApiInfoENUM;
 
 public class BestRestaurantApiCollector {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public List<BestRestaurantRawDTO> collect( String guURL, String guCode ) {
+    public List<BestRestaurantRawDTO> collect(GuApiInfoENUM guInfo, String apiKey) {
         List<BestRestaurantRawDTO> rawList = new ArrayList<>();
 
         int page = 1;
 
         String url = String.format(
-            "%s/464850745570757236334247635442/xml/%s/1/1/",
-            guURL, guCode
+            "%s/%s/xml/%s/1/1/",
+            guInfo.getBaseUrl(),
+            apiKey,
+            guInfo.getCode()
         );
 
-        RestaurantApiResponse response = restTemplate.getForObject(url, RestaurantApiResponse.class);
+        BestRestaurantApiResponse response = restTemplate.getForObject(url, BestRestaurantApiResponse.class);
 
         int listTotalCount = response.getListTotalCount();
         int totalPage = (listTotalCount + 1000 - 1) / 1000;
@@ -32,11 +35,15 @@ public class BestRestaurantApiCollector {
             int toNum = (page) * 1000;
 
             String pageUrl = String.format(
-                "%s/464850745570757236334247635442/xml/%s/%d/%d/",
-                guURL, guCode, fromNum, toNum
+                "%s/%s/xml/%s/%d/%d/",
+                guInfo.getBaseUrl(),
+                apiKey,
+                guInfo.getCode(),
+                fromNum,
+                toNum
             );
 
-            RestaurantApiResponse pageResponse = restTemplate.getForObject(pageUrl, RestaurantApiResponse.class);
+            BestRestaurantApiResponse pageResponse = restTemplate.getForObject(pageUrl, BestRestaurantApiResponse.class);
             List<BestRestaurantRawDTO> rows = pageResponse.getRow();
 
             if ( rows == null || rows.isEmpty() ) {
