@@ -24,11 +24,18 @@ export default function TabMenu(){
         navigate(path);
         setNewPath(path);
     };
-
+    //탭메뉴 클릭 기능
      const togglePanel = () => {
         setIsExpanded(prev => {
             const newExpanded = !prev;
+
+            //확장 버튼 클릭 시 default로 0번째 인덱스 가져오기
+            if(newPath!=null){
             navigate(newPath);
+            }else{
+                navigate(tabItems[0].path);
+                setActiveTab(tabItems[0].name);
+            }
 
             if(!newExpanded){
                 navigate("/sidebar");
