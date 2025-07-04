@@ -22,7 +22,7 @@ public class TelNumTrans {
             if (number.length() == 8) {
                 formatted = "02-" + number.substring(0, 4) + "-" + number.substring(4);
             } 
-            else if (number.length() == 7) {
+            if (number.length() == 7) {
                 formatted = "02-" + number.substring(0, 3) + "-" + number.substring(3);
             }
         } 
@@ -32,7 +32,7 @@ public class TelNumTrans {
             if (number.length() == 8) {
                 formatted = "070-" + number.substring(0, 4) + "-" + number.substring(4);
             } 
-            else if (number.length() == 7) {
+            if (number.length() == 7) {
                 formatted = "070-" + number.substring(0, 3) + "-" + number.substring(3);
             }
         } 
