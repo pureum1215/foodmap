@@ -10,15 +10,16 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import kr.map.food.domain.apiData.KakaoAddressDTO;
+import kr.map.food.config.ApiKeyConfig;
+import kr.map.food.domain.apiData.Restaurant.RestaurantKakaoAddressDTO;
 
 public class KakaoApiClient {
     
     // 카카오api 이용하여 데이터 받기
-    public static KakaoAddressDTO searchAddress(String address) {
+    public static RestaurantKakaoAddressDTO searchAddress(String address) {
 
         try {
-            String apiKey = "KakaoAK a798752b745045620c23bdc634b9d833";
+            String apiKey = ApiKeyConfig.KAKAO_REST_API_KEY;
             String apiUrl = "https://dapi.kakao.com/v2/local/search/address.json?query=" 
                             + URLEncoder.encode(address, StandardCharsets.UTF_8);
 
@@ -40,7 +41,7 @@ public class KakaoApiClient {
             JSONObject road = first.optJSONObject("road_address");
             JSONObject jibun = first.optJSONObject("address");
 
-            KakaoAddressDTO info = new KakaoAddressDTO();
+            RestaurantKakaoAddressDTO info = new RestaurantKakaoAddressDTO();
             if (road != null) {
                 info.setRoadAddress(road.optString("address_name"));
                 info.setPostCode(road.optString("zone_no"));
