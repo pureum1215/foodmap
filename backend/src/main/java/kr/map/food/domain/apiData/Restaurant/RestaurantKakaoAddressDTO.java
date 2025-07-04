@@ -1,9 +1,9 @@
-package kr.map.food.domain.apiData;
+package kr.map.food.domain.apiData.Restaurant;
 
 import lombok.Data;
 
 @Data
-public class KakaoAddressDTO {
+public class RestaurantKakaoAddressDTO {
 
     private String roadAddress;
     private String jibunAddress;
