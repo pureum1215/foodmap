@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import kr.map.food.config.ApiKeyConfig;
 import kr.map.food.domain.apiData.Restaurant.RestaurantKakaoAddressDTO;
 
 public class KakaoApiClient {
@@ -18,7 +19,7 @@ public class KakaoApiClient {
     public static RestaurantKakaoAddressDTO searchAddress(String address) {
 
         try {
-            String apiKey = "KakaoAK a798752b745045620c23bdc634b9d833";
+            String apiKey = ApiKeyConfig.KAKAO_REST_API_KEY;
             String apiUrl = "https://dapi.kakao.com/v2/local/search/address.json?query=" 
                             + URLEncoder.encode(address, StandardCharsets.UTF_8);
 

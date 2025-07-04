@@ -4,7 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.map.food.domain.apiData.BestRestaurant.GuApiInfoENUM;
+import kr.map.food.config.ApiKeyConfig;
+import kr.map.food.domain.apiData.Restaurant.GuApiInfoENUM;
 import kr.map.food.domain.apiData.Restaurant.RestaurantDTO;
 import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
@@ -19,7 +20,8 @@ public class RestaurantApiDataService {
     private final RestaurantApiCollector collector;
     private final RestaurantApiDataMapper restaurantMapper;
 
-    private static final String API_KEY = "464850745570757236334247635442";
+    private static final String apiKey = ApiKeyConfig.SEOUL_OPENAPI_KEY;
+;
 
     public RestaurantApiDataService( RestaurantApiCollector collector, RestaurantApiDataMapper restaurantMapper ) {
         this.collector = collector;
@@ -29,7 +31,7 @@ public class RestaurantApiDataService {
     public void collectAllGuData() {
 
         for ( GuApiInfoENUM guURL : GuApiInfoENUM.values() ) {
-            List<RestaurantRawDTO> rawList = collector.collect( guURL, API_KEY );
+            List<RestaurantRawDTO> rawList = collector.collect( guURL, apiKey );
             for ( RestaurantRawDTO raw : rawList ) {
 
                 // null값 찾기

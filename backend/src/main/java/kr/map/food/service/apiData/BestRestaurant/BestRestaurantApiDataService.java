@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import kr.map.food.config.ApiKeyConfig;
 import kr.map.food.domain.apiData.BestRestaurant.BestRestaurantDTO;
 import kr.map.food.domain.apiData.BestRestaurant.BestRestaurantRawDTO;
 import kr.map.food.domain.apiData.BestRestaurant.GuApiInfoENUM;
@@ -18,7 +19,8 @@ public class BestRestaurantApiDataService {
     private final BestRestaurantApiCollector collector;
     private final BestRestaurantApiDataMapper bestRestaurantMapper;
 
-    private static final String API_KEY = "464850745570757236334247635442";
+    private static final String apiKey = ApiKeyConfig.SEOUL_OPENAPI_KEY;
+;
 
     public BestRestaurantApiDataService( BestRestaurantApiCollector collector, BestRestaurantApiDataMapper bestRestaurantMapper ) {
         this.collector = collector;
@@ -28,7 +30,7 @@ public class BestRestaurantApiDataService {
     public void collectAllGuData() {
 
         for ( GuApiInfoENUM guURL : GuApiInfoENUM.values() ) {
-            List<BestRestaurantRawDTO> rawList = collector.collect( guURL, API_KEY );
+            List<BestRestaurantRawDTO> rawList = collector.collect( guURL, apiKey );
 
             for ( BestRestaurantRawDTO raw : rawList ) {
                 if ( FindNullData.isEmpty( raw.getPERM_NT_NO() ) ) {
