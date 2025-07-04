@@ -6,7 +6,7 @@
 <mapper namespace="kr.map.food.mappers.cleanGrade.CleanGradeMapper">
 
   <!-- 1. INSERT -->
-  <insert id="insert" parameterType="CleanGradeDTO">
+  <insert id="insertClean" parameterType="CleanGradeDTO">
     INSERT INTO cleangrade (
       CLEANIDX, UPSONM, SITEADDR, ASSIGNGRADE, ASSIGNYEAR, delYN
     ) VALUES (
@@ -15,11 +15,10 @@
   </insert>
 
   <!-- 2. 중복 확인 -->
-  <select id="exists" parameterType="CleanGradeDTO" resultType="int">
+  <select id="existsClean" parameterType="CleanGradeDTO" resultType="int">
     SELECT COUNT(*) FROM cleangrade
     WHERE upsoNm = #{upsoNm}
       AND siteAddr = #{siteAddr}
-      AND assignGrade = #{assignGrade}
       AND assignYear = #{assignYear}
   </select>
 
@@ -43,4 +42,13 @@
     SELECT MAX(CLEANIDX) FROM cleangrade
   </select>
 
+    <!-- 6. Update 지정등급 변경된 업소 -->
+    <select id="updateClean" parameterType="CleanGradeDTO">
+    UPDATE cleangrade
+    SET assignGrade = #{assignGrade},
+        clDelYn = 'N',
+    WHERE upsoNm = #{upsoNm}
+    AND siteAddr = #{siteAddr}
+    AND assignYear = #{assignYear}
+    </select>
 </mapper>
