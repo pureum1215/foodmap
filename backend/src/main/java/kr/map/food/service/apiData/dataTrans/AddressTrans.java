@@ -1,8 +1,8 @@
 package kr.map.food.service.apiData.dataTrans;
 
-import kr.map.food.domain.apiData.KakaoAddressDTO;
-import kr.map.food.domain.apiData.RestaurantDTO;
-import kr.map.food.domain.apiData.RestaurantRawDTO;
+import kr.map.food.domain.apiData.Restaurant.RestaurantKakaoAddressDTO;
+import kr.map.food.domain.apiData.Restaurant.RestaurantDTO;
+import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
 
 public class AddressTrans {
 
@@ -43,7 +43,7 @@ public class AddressTrans {
 
 
         // 카카오맵 api 호출
-        KakaoAddressDTO kakaoInfo = KakaoApiClient.searchAddress(queryAddress);
+        RestaurantKakaoAddressDTO kakaoInfo = KakaoApiClient.searchAddress(queryAddress);
 
         if (kakaoInfo == null) {
             return;

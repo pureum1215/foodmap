@@ -1,18 +1,18 @@
-package kr.map.food.service.apiData;
+package kr.map.food.service.apiData.Restaurant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
-import kr.map.food.domain.apiData.RestaurantRawDTO;
-import kr.map.food.domain.util.ApiResponse;
+import kr.map.food.domain.apiData.Restaurant.RestaurantApiResponse;
+import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
 
 public class RestaurantApiCollector {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public List<RestaurantRawDTO> collect(String guCode) {
+    public List<RestaurantRawDTO> collect( String guCode ) {
         List<RestaurantRawDTO> rawList = new ArrayList<>();
 
         int page = 1;
@@ -22,7 +22,7 @@ public class RestaurantApiCollector {
             guCode
         );
 
-        ApiResponse response = restTemplate.getForObject(url, ApiResponse.class);
+        RestaurantApiResponse response = restTemplate.getForObject(url, RestaurantApiResponse.class);
 
         int listTotalCount = response.getListTotalCount();
         int totalPage = (listTotalCount + 1000 - 1) / 1000;
@@ -36,7 +36,7 @@ public class RestaurantApiCollector {
                 guCode, fromNum, toNum
             );
 
-            ApiResponse pageResponse = restTemplate.getForObject(pageUrl, ApiResponse.class);
+            RestaurantApiResponse pageResponse = restTemplate.getForObject(pageUrl, RestaurantApiResponse.class);
             List<RestaurantRawDTO> rows = pageResponse.getRow();
 
             if ( rows == null || rows.isEmpty() ) {

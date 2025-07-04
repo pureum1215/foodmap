@@ -1,12 +1,12 @@
-package kr.map.food.service.apiData;
+package kr.map.food.service.apiData.BestRestaurant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
-import kr.map.food.domain.apiData.BestRestaurantRawDTO;
-import kr.map.food.domain.util.ApiResponse;
+import kr.map.food.domain.apiData.BestRestaurant.BestRestaurantRawDTO;
+import kr.map.food.domain.apiData.Restaurant.RestaurantApiResponse;
 
 public class BestRestaurantApiCollector {
 
@@ -22,7 +22,7 @@ public class BestRestaurantApiCollector {
             guURL, guCode
         );
 
-        ApiResponse response = restTemplate.getForObject(url, ApiResponse.class);
+        RestaurantApiResponse response = restTemplate.getForObject(url, RestaurantApiResponse.class);
 
         int listTotalCount = response.getListTotalCount();
         int totalPage = (listTotalCount + 1000 - 1) / 1000;
@@ -36,7 +36,7 @@ public class BestRestaurantApiCollector {
                 guURL, guCode, fromNum, toNum
             );
 
-            ApiResponse pageResponse = restTemplate.getForObject(pageUrl, ApiResponse.class);
+            RestaurantApiResponse pageResponse = restTemplate.getForObject(pageUrl, RestaurantApiResponse.class);
             List<BestRestaurantRawDTO> rows = pageResponse.getRow();
 
             if ( rows == null || rows.isEmpty() ) {

@@ -1,4 +1,4 @@
-package kr.map.food.domain.apiData.Restaurant;
+package kr.map.food.domain.apiData.BestRestaurant;
 
 import java.util.List;
 
@@ -13,15 +13,15 @@ import lombok.Data;
 @XmlRootElement(name = "LOCALDATA_072404_YC")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Data
-public class RestaurantApiResponse {
-    
+public class BestRestaurantApiResponse {
+
     @XmlElement(name = "list_total_count")
     private int listTotalCount;
-
+    
     @XmlElement(name = "RESULT")
     private ResultDTO result;
 
     @XmlElement(name = "row")
-    private List<RestaurantRawDTO> row;
+    private List<BestRestaurantRawDTO> row;
 
 }

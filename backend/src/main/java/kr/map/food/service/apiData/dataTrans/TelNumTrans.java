@@ -1,6 +1,6 @@
 package kr.map.food.service.apiData.dataTrans;
 
-import kr.map.food.domain.apiData.RestaurantDTO;
+import kr.map.food.domain.apiData.Restaurant.RestaurantDTO;
 
 public class TelNumTrans {
     

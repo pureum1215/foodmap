@@ -1,11 +1,11 @@
-package kr.map.food.service.apiData;
+package kr.map.food.service.apiData.Restaurant;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.map.food.domain.apiData.RestaurantDTO;
-import kr.map.food.domain.apiData.RestaurantRawDTO;
+import kr.map.food.domain.apiData.Restaurant.RestaurantDTO;
+import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
 import kr.map.food.service.apiData.dataTrans.AddressTrans;
 import kr.map.food.service.apiData.dataTrans.DataTypeTrans;
