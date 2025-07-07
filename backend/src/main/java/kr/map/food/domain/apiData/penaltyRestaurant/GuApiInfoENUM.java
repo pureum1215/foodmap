@@ -1,108 +1,109 @@
-package kr.map.food.domain.apiData.BestRestaurant;
+package kr.map.food.domain.apiData.penaltyRestaurant;
 
-public enum GuApiInfoENUM {
+public enum GuApiInfroENUM {
 
-    GANGNAM_MODEL(
+    GANGNAM_PENALTY(
         "http://openAPI.gangnam.go.kr:8088",
         "GnAdminMesureFood"
     ),
-    GANGDONG_MODEL(
+    GANGDONG_PENALTY(
         "http://openAPI.gd.go.kr:8088",
-        "GdModelRestaurantDesignate"
+        "GdAdminMesureFood"
     ),
-    GANGBUK_MODEL(
+    GANGBUK_PENALTY(
         "http://openAPI.gangbuk.go.kr:8088",
-        "GbModelRestaurantDesignate"
+        "GbAdminMesureFood"
     ),
-    GANGSEO_MODEL(
+    GANGSEO_PENALTY(
         "http://openAPI.gangseo.seoul.kr:8088",
-        "GangseoModelRestaurantDesignate"
+        "GangseoAdminMesureFood"
     ),
-    GWANAK_MODEL(
+    GWANAK_PENALTY(
         "http://openAPI.gwanak.go.kr:8088",
-        "GaModelRestaurantDesignate"
+        "GaAdminMesureFood"
     ),
-    GWANGJIN_MODEL(
+    GWANGJIN_PENALTY(
         "http://openAPI.gwangjin.go.kr:8088",
-        "GwangjinModelRestaurantDesignate"
+        "GwangjinAdminMesureFood"
     ),
-    GURO_MODEL(
+    GURO_PENALTY(
         "http://openAPI.guro.go.kr:8088",
-        "GuroModelRestaurantDesignate"
+        "GuroAdminMesureFood"
     ),
-    GEUMCHEON_MODEL(
+    GEUMCHEON_PENALTY(
         "http://openAPI.geumcheon.go.kr:8088",
-        "GeumcheonModelRestaurantDesignate"
+        "GeumcheonAdminMesureFood"
     ),
-    NOWON_MODEL(
+    NOWON_PENALTY(
         "http://openAPI.nowon.go.kr:8088",
-        "NwModelRestaurantDesignate"
+        "NwAdminMesureFood"
     ),
-    DOBONG_MODEL(
+    DOBONG_PENALTY(
         "http://openAPI.dobong.go.kr:8088",
-        "DobongModelRestaurantDesignate"
+        "DobongAdminMesureFood"
     ),
-    DONGDAEMUN_MODEL(
+    DONGDAEMUN_PENALTY(
         "http://openAPI.ddm.go.kr:8088",
-        "DongdeamoonModelRestaurantDesignate"
+        "DongdeamoonAdminMesureFood"
     ),
-    DONGJAK_MODEL(
+    DONGJAK_PENALTY(
         "http://openAPI.dongjak.go.kr:8088",
-        "DjModelRestaurantDesignate"
+        "DjAdminMesureFood"
     ),
-    MAPO_MODEL(
+    MAPO_PENALTY(
         "http://openAPI.mapo.go.kr:8088",
-        "MpModelRestaurantDesignate"
+        "MpAdminMesureFood"
     ),
-    SEODAEMUN_MODEL(
+    SEODAEMUN_PENALTY(
         "http://openAPI.sdm.go.kr:8088",
-        "SeodaemunModelRestaurantDesignate"
+        "SeodaemunAdminMesureFood"
     ),
-    SEOCHO_MODEL(
+    SEOCHO_PENALTY(
         "http://openAPI.seocho.go.kr:8088",
-        "ScModelRestaurantDesignate"
+        "ScAdminMesureFood"
     ),
-    SEONGDONG_MODEL(
+    SEONGDONG_PENALTY(
         "http://openAPI.sd.go.kr:8088",
-        "SdModelRestaurantDesignate"
+        "SdAdminMesureFood"
     ),
-    SEONGBUK_MODEL(
+    SEONGBUK_PENALTY(
         "http://openAPI.sb.go.kr:8088",
-        "SbModelRestaurantDesignate"
+        "SbAdminMesureFood"
     ),
-    SONGPA_MODEL(
+    SONGPA_PENALTY(
         "http://openAPI.songpa.seoul.kr:8088",
-        "SpModelRestaurantDesignate"
+        "SpAdminMesureFood"
     ),
-    YANGCHEON_MODEL(
+    YANGCHEON_PENALTY(
         "http://openAPI.yangcheon.go.kr:8088",
-        "YcModelRestaurantDesignate"
+        "YcAdminMesureFood"
     ),
-    YEONGDEUNGPO_MODEL(
+    YEONGDEUNGPO_PENALTY(
         "http://openAPI.ydp.go.kr:8088",
-        "YdpModelRestaurantDesignate"
+        "YdpAdminMesureFood"
     ),
-    YONGSAN_MODEL(
+    YONGSAN_PENALTY(
         "http://openAPI.yongsan.go.kr:8088",
-        "YsModelRestaurantDesignate"
+        "YsAdminMesureFood"
     ),
-    EUNPYEONG_MODEL(
+    EUNPYEONG_PENALTY(
         "http://openAPI.ep.go.kr:8088",
-        "EpModelRestaurantDesignate"
+        "EpAdminMesureFood"
     ),
-    JONGNO_MODEL(
+    JONGNO_PENALTY(
         "http://openAPI.jongno.go.kr:8088",
-        "JongnoModelRestaurantDesignate"
+        "JongnoAdminMesureFood"
     ),
-    JUNGGU_MODEL(
+    JUNGGU_PENALTY(
         "http://openAPI.junggu.seoul.kr:8088",
-        "JungguModelRestaurantDesignate"
+        "JungguAdminMesureFood"
     ),
-    JUNGNANG_MODEL(
+    JUNGNANG_PENALTY(
         "http://openAPI.jungnang.seoul.kr:8088",
-        "JungnangModelRestaurantDesignate"
+        "JungnangAdminMesureFood"
     );
 
+    
     private final String baseUrl;
     private final String code;
 
