@@ -1,4 +1,4 @@
-package kr.map.food.domain.apiData.Restaurant;
+package kr.map.food.domain.apiData.restaurant;
 
 import lombok.Data;
 

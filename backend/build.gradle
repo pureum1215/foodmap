@@ -33,6 +33,7 @@ dependencies {
 	// JAXB (XML 파싱용)
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
     implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
 
 	// 카카오맵 api용
 	implementation 'org.json:json:20240303'
