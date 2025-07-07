@@ -1,4 +1,4 @@
-package kr.map.food.domain.apiData.BestRestaurant;
+package kr.map.food.domain.apiData.bestRestaurant;
 
 public enum GuApiInfoENUM {
 

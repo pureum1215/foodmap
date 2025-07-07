@@ -1,6 +1,6 @@
 package kr.map.food.domain.apiData.penaltyRestaurant;
 
-public enum GuApiInfroENUM {
+public enum GuApiInfoENUM {
 
     GANGNAM_PENALTY(
         "http://openAPI.gangnam.go.kr:8088",

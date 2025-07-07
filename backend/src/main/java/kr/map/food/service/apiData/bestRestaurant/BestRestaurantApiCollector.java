@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
-import kr.map.food.domain.apiData.BestRestaurant.BestRestaurantApiResponse;
-import kr.map.food.domain.apiData.BestRestaurant.BestRestaurantRawDTO;
-import kr.map.food.domain.apiData.BestRestaurant.GuApiInfoENUM;
+import kr.map.food.domain.apiData.bestRestaurant.BestRestaurantApiResponse;
+import kr.map.food.domain.apiData.bestRestaurant.BestRestaurantRawDTO;
+import kr.map.food.domain.apiData.bestRestaurant.GuApiInfoENUM;
 
 public class BestRestaurantApiCollector {
 
