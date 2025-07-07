@@ -37,6 +37,9 @@ dependencies {
 	// 카카오맵 api용
 	implementation 'org.json:json:20240303'
 
+	// 엑셀 파싱용
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
