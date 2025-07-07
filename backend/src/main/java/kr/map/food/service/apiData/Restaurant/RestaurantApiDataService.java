@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import kr.map.food.config.ApiKeyConfig;
-import kr.map.food.domain.apiData.Restaurant.GuApiInfoENUM;
-import kr.map.food.domain.apiData.Restaurant.RestaurantDTO;
-import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
+import kr.map.food.domain.apiData.restaurant.GuApiInfoENUM;
+import kr.map.food.domain.apiData.restaurant.RestaurantDTO;
+import kr.map.food.domain.apiData.restaurant.RestaurantRawDTO;
 import kr.map.food.mapper.apiData.RestaurantApiDataMapper;
 import kr.map.food.service.apiData.dataTrans.AddressTrans;
 import kr.map.food.service.apiData.dataTrans.DataTypeTrans;

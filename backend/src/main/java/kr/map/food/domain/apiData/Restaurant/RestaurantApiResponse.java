@@ -1,27 +1,23 @@
-package kr.map.food.domain.apiData.Restaurant;
+package kr.map.food.domain.apiData.restaurant;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
 import kr.map.food.domain.util.ResultDTO;
 import lombok.Data;
 
-@XmlRootElement(name = "LOCALDATA_072404_YC")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Data
 public class RestaurantApiResponse {
-    
-    @XmlElement(name = "list_total_count")
+
+    @JacksonXmlProperty(localName = "list_total_count")
     private int listTotalCount;
 
-    @XmlElement(name = "RESULT")
+    @JacksonXmlProperty(localName = "RESULT")
     private ResultDTO result;
 
-    @XmlElement(name = "row")
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "row")
     private List<RestaurantRawDTO> row;
-
 }

@@ -1,4 +1,4 @@
-package kr.map.food.domain.apiData.BestRestaurant;
+package kr.map.food.domain.apiData.bestRestaurant;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

@@ -11,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import kr.map.food.config.ApiKeyConfig;
-import kr.map.food.domain.apiData.Restaurant.RestaurantKakaoAddressDTO;
+import kr.map.food.domain.apiData.restaurant.RestaurantKakaoAddressDTO;
 
 public class KakaoApiClient {
     

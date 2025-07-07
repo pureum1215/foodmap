@@ -1,8 +1,8 @@
 package kr.map.food.service.apiData.dataTrans;
 
-import kr.map.food.domain.apiData.Restaurant.RestaurantKakaoAddressDTO;
-import kr.map.food.domain.apiData.Restaurant.RestaurantDTO;
-import kr.map.food.domain.apiData.Restaurant.RestaurantRawDTO;
+import kr.map.food.domain.apiData.restaurant.RestaurantDTO;
+import kr.map.food.domain.apiData.restaurant.RestaurantKakaoAddressDTO;
+import kr.map.food.domain.apiData.restaurant.RestaurantRawDTO;
 
 public class AddressTrans {
 
